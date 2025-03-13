@@ -29,8 +29,8 @@ LETTER_POOL = {
     'Z': 1
 }
 
-alphabet = list(LETTER_POOL.keys())
-print(alphabet)
+ALPHABET = list(LETTER_POOL.keys())
+
 
 # meow meow
 def draw_letters():
@@ -44,7 +44,7 @@ def draw_letters():
 
         random_num = randint(0, 25)
 
-        letter = alphabet[random_num]
+        letter = ALPHABET[random_num]
 
         if alphabet_pool[letter] > 0:
             results.append(letter)
@@ -55,10 +55,81 @@ def draw_letters():
 
 
 def uses_available_letters(word, letter_bank):
-    pass
+    
+    cap_word = change_to_uppercase(word)
+    letter_tracker = create_letter_tracker(letter_bank)
+    result = True
+
+    print(cap_word, letter_bank)
+
+    for letter in cap_word:
+        if letter in letter_tracker and letter_tracker[letter] > 0:
+            letter_tracker[letter] -= 1
+        else:
+            result = False
+            break
+
+    return result
+
 
 def score_word(word):
     pass
 
 def get_highest_word_score(word_list):
     pass
+
+def change_to_uppercase(word):
+
+    letters = {
+        "a": "A",
+        "b": "B",
+        "c": "C",
+        "d": "D",
+        "e": "E",
+        "f": "F",
+        "g": "G",
+        "h": "H",
+        "i": "I",
+        "j": "J",
+        "k": "K",
+        "l": "L",
+        "m": "M",
+        "n": "N",
+        "o": "O",
+        "p": "P",
+        "q": "Q",
+        "r": "R",
+        "s": "S",
+        "t": "T",
+        "u": "U",
+        "v": "V",
+        "w": "W",
+        "x": "X",
+        "y": "Y",
+        "z": "Z"
+    }
+
+    results = ""
+    lower_case = list(letters.keys())
+
+    for letter in word:
+        if letter in lower_case:
+            results += letters[letter]
+        else:
+            results += letter
+    
+    return results
+
+def create_letter_tracker(letter_bank):
+
+    letter_tracker = {}
+
+    for letter in letter_bank:
+        if letter in letter_tracker:
+            letter_tracker[letter] += 1
+        else:
+            letter_tracker[letter] = 1
+
+    return letter_tracker
+
+# uses_available_letters("meow", ['m', 'e', 'o', 'w', ])
