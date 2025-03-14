@@ -29,6 +29,35 @@ LETTER_POOL = {
     'Z': 1
 }
 
+SCORE_CHART = {
+    'A': 1, 
+    'B': 3, 
+    'C': 3, 
+    'D': 2, 
+    'E': 1, 
+    'F': 4, 
+    'G': 2, 
+    'H': 4, 
+    'I': 1, 
+    'J': 8, 
+    'K': 5, 
+    'L': 1, 
+    'M': 3, 
+    'N': 1, 
+    'O': 1, 
+    'P': 3, 
+    'Q': 10, 
+    'R': 1, 
+    'S': 1, 
+    'T': 1, 
+    'U': 1, 
+    'V': 4, 
+    'W': 4, 
+    'X': 8, 
+    'Y': 4, 
+    'Z': 10
+}
+
 ALPHABET = list(LETTER_POOL.keys())
 
 
@@ -73,13 +102,55 @@ def uses_available_letters(word, letter_bank):
 
 
 def score_word(word):
-    pass
+    score = 0
+
+    cap_word = change_to_uppercase(word)
+
+    for letter in cap_word:
+        if letter in SCORE_CHART:
+            score += SCORE_CHART[letter]
+
+    if len(cap_word) >= 7:
+        score += 8
+
+    return score
 
 def get_highest_word_score(word_list):
-    pass
+
+    word_chart = create_word_chart(word_list)
+    winners = []
+
+    for word in word_chart.keys():
+
+        winner_score =  winners[0]["score"] if winners else 0
+        word_info = {
+                "word": word,
+                "score": word_chart[word]["score"],
+                "length": len(word)
+                }
+
+        if not winners or winner_score == word_info["score"]:
+            winners.append(word_info)
+        elif word_chart[word]["score"] > winners[0]["score"]:
+            winners = [word_info]
+
+    results = None
+
+    if len(winners) > 1:
+        results = settle_score_tie(winners)
+    else:
+        results = (winners[0]["word"], winners[0]["score"])
+    
+    return results
+
+
+
+
+
+
+# vvv helper functions below vvv
 
 def change_to_uppercase(word):
-
     letters = {
         "a": "A",
         "b": "B",
@@ -132,4 +203,42 @@ def create_letter_tracker(letter_bank):
 
     return letter_tracker
 
+def create_word_chart(word_list):
+
+    word_chart = {}
+
+    for word in word_list:
+        word_chart[word] = {
+            "score": score_word(word),
+            "length": len(word)
+        }
+
+    return word_chart
+
+def settle_score_tie(word_list):
+
+    check_ten = None
+    highest_index = 0
+
+    for i in range(len(word_list)):
+
+        length_one = word_list[i]["length"]
+        length_two = word_list[highest_index]["length"]
+        
+
+        if length_one == 10 and not check_ten:
+            check_ten = word_list[i]
+        elif length_one < length_two:
+            highest_index = i
+
+    results = None
+
+    if check_ten:
+        results = (check_ten["word"], check_ten["score"])
+    else:
+        results = (word_list[highest_index]["word"], word_list[highest_index]["score"])
+
+    return results
+
+print(get_highest_word_score(["meow", "woof", "fuck"]))
 # uses_available_letters("meow", ['m', 'e', 'o', 'w', ])
