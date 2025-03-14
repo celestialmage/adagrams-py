@@ -60,14 +60,10 @@ SCORE_CHART = {
 
 ALPHABET = list(LETTER_POOL.keys())
 
-
-# meow meow
 def draw_letters():
 
     alphabet_pool = dict(LETTER_POOL)
     results = []
-
-    print(alphabet_pool)
 
     while len(results) < 10:
 
@@ -79,7 +75,6 @@ def draw_letters():
             results.append(letter)
             alphabet_pool[letter] -= 1
 
-    print(results, alphabet_pool)
     return results
 
 
@@ -88,8 +83,6 @@ def uses_available_letters(word, letter_bank):
     cap_word = change_to_uppercase(word)
     letter_tracker = create_letter_tracker(letter_bank)
     result = True
-
-    print(cap_word, letter_bank)
 
     for letter in cap_word:
         if letter in letter_tracker and letter_tracker[letter] > 0:
@@ -142,11 +135,6 @@ def get_highest_word_score(word_list):
         results = (winners[0]["word"], winners[0]["score"])
     
     return results
-
-
-
-
-
 
 # vvv helper functions below vvv
 
@@ -239,6 +227,3 @@ def settle_score_tie(word_list):
         results = (word_list[highest_index]["word"], word_list[highest_index]["score"])
 
     return results
-
-print(get_highest_word_score(["meow", "woof", "fuck"]))
-# uses_available_letters("meow", ['m', 'e', 'o', 'w', ])
