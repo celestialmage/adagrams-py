@@ -1,5 +1,5 @@
 from random import randint
-from .constants import LETTER_POOL, SCORE_CHART, LOWER_CASE, ALPHABET
+from .constants import LETTER_POOL, SCORE_CHART, ALPHABET
 
 def draw_letters():
 
@@ -21,7 +21,7 @@ def draw_letters():
 
 def uses_available_letters(word, letter_bank):
     
-    cap_word = change_to_uppercase(word)
+    cap_word = word.upper()
     letter_tracker = create_letter_tracker(letter_bank)
     result = True
 
@@ -38,7 +38,7 @@ def uses_available_letters(word, letter_bank):
 def score_word(word):
     score = 0
 
-    cap_word = change_to_uppercase(word)
+    cap_word = word.upper()
 
     for letter in cap_word:
         if letter in SCORE_CHART:
@@ -78,19 +78,6 @@ def get_highest_word_score(word_list):
     return results
 
 # vvv helper functions below vvv
-
-def change_to_uppercase(word):
-
-    results = ""
-    lower_case = list(LOWER_CASE.keys())
-
-    for letter in word:
-        if letter in lower_case:
-            results += LOWER_CASE[letter]
-        else:
-            results += letter
-    
-    return results
 
 def create_letter_tracker(letter_bank):
 
